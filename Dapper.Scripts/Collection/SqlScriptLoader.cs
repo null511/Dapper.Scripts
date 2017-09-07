@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Dapper.Scripts
+namespace Dapper.Scripts.Collection
 {
-    public class ScriptLoader
+    public class SqlScriptLoader
     {
         private readonly IDictionary<string, string> scriptCollection;
 
-        public ScriptLoader(IDictionary<string, string> scriptCollection)
+        public SqlScriptLoader(IDictionary<string, string> scriptCollection)
         {
             this.scriptCollection = scriptCollection;
         }

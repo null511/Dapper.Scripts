@@ -1,4 +1,4 @@
-﻿namespace Dapper.Scripts
+﻿namespace Dapper.Scripts.Collection
 {
     public interface ISqlScriptCollection
     {

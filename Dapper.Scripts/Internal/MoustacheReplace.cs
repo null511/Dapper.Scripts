@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dapper.Scripts
+namespace Dapper.Scripts.Internal
 {
-    internal static class Moustache
+    internal static class MoustacheReplaceEx
     {
         private const string MoustacheStartChars = "{{";
         private const string MoustacheStopChars = "}}";

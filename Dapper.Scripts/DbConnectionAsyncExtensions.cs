@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Scripts.Connection;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;

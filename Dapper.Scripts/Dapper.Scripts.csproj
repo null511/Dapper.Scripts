@@ -35,8 +35,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
@@ -45,14 +43,14 @@
   <ItemGroup>
     <Compile Include="DbConnectionAsyncExtensions.cs" />
     <Compile Include="DbConnectionExtensions.cs" />
-    <Compile Include="ISqlScriptCollection.cs" />
-    <Compile Include="ISqlScriptConnection.cs" />
-    <Compile Include="Moustache.cs" />
+    <Compile Include="Collection\ISqlScriptCollection.cs" />
+    <Compile Include="Connection\ISqlScriptConnection.cs" />
+    <Compile Include="Internal\MoustacheReplace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptLoader.cs" />
-    <Compile Include="SqlScriptConnectionFactory.cs" />
-    <Compile Include="SqlScriptCollection.cs" />
-    <Compile Include="SqlScriptConnection.cs" />
+    <Compile Include="Collection\SqlScriptLoader.cs" />
+    <Compile Include="Connection\SqlScriptConnectionFactory.cs" />
+    <Compile Include="Collection\SqlScriptCollection.cs" />
+    <Compile Include="Connection\SqlScriptConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

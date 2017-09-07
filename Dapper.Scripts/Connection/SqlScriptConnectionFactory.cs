@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Dapper.Scripts.Collection;
+using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Dapper.Scripts
+namespace Dapper.Scripts.Connection
 {
     public class SqlScriptConnectionFactory
     {

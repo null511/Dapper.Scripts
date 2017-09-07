@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Dapper.Scripts.Internal;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Dapper.Scripts
+namespace Dapper.Scripts.Collection
 {
     /// <summary>
     /// Manages a collection of SQL scripts in-memory.
@@ -15,7 +16,7 @@ namespace Dapper.Scripts
     {
         private readonly Dictionary<string, string> scripts;
 
-        public ScriptLoader Add {get;}
+        public SqlScriptLoader Add {get;}
 
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace Dapper.Scripts
         {
             scripts = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            Add = new ScriptLoader(scripts);
+            Add = new SqlScriptLoader(scripts);
         }
 
         /// <summary>
