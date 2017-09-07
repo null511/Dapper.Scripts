@@ -8,7 +8,7 @@
     <owners>Joshua Miller</owners>
     <projectUrl>http://github.com/null511/Dapper.Scripts</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>Extension of Dapper which supports binding a sql-script collection to a sql-connection.</description>
     <copyright>Copyright 2017</copyright>
     <tags>dapper sql script</tags>
   </metadata>
