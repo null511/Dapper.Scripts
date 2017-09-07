@@ -26,7 +26,7 @@ namespace Dapper.Scripts.Collection
 
             foreach (var resource in sqlResources) {
                 var key = resource.Substring(path.Length);
-                key = Path.GetFileName(key);
+                //key = Path.GetFileName(key);
 
                 using (var stream = assembly.GetManifestResourceStream(resource)) {
                     if (stream == null)
@@ -45,7 +45,7 @@ namespace Dapper.Scripts.Collection
                 throw new ArgumentNullException(nameof(path));
 
             foreach (var file in Directory.GetFiles(path, "*.sql")) {
-                var key = Path.GetFileNameWithoutExtension(file);
+                var key = Path.GetFileName(file);
                 scriptCollection[key] = File.ReadAllText(file);
             }
         }
