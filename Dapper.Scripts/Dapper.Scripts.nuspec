@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>dapper.scripts</id>
+    <version>$version$</version>
+    <title>Dapper.Scripts</title>
+    <authors>Joshua Miller</authors>
+    <owners>Joshua Miller</owners>
+    <projectUrl>http://github.com/null511/Dapper.Scripts</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright 2017</copyright>
+    <tags>dapper sql script</tags>
+  </metadata>
+</package>
