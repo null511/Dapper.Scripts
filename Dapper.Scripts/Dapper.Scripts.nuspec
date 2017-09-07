@@ -11,8 +11,8 @@
     <description>Extension of Dapper which supports binding a sql-script collection to a sql-connection.</description>
     <copyright>Copyright 2017</copyright>
     <tags>dapper sql script</tags>
+    <dependencies>
+    	<dependency id="Dapper" version="1.50.2" />
+    </dependencies>
   </metadata>
-  <dependencies>
-  	<dependency id="Dapper" version="1.50.2" />
-  </dependencies>
 </package>
