@@ -4,13 +4,21 @@ using System.Text;
 
 namespace Dapper.Scripts.Internal
 {
-    internal static class MoustacheReplaceEx
+    public class MoustacheReplace
     {
-        private const string MoustacheStartChars = "{{";
-        private const string MoustacheStopChars = "}}";
+        public MoustacheBehavior NotFoundBehavior {get; set;}
+        public string MoustacheStartChars {get; set;}
+        public string MoustacheStopChars {get; set;}
 
 
-        public static string MoustacheReplace<T>(this string text, IDictionary<string, T> valueCollection, MoustacheNotFoundBehavior notFoundBehavior = MoustacheNotFoundBehavior.Source)
+        public MoustacheReplace()
+        {
+            NotFoundBehavior = MoustacheBehavior.Source;
+            MoustacheStartChars = "<";
+            MoustacheStopChars = ">";
+        }
+
+        public string Replace<T>(string text, IDictionary<string, T> valueCollection)
         {
             if (string.IsNullOrEmpty(text)) return text;
             if (valueCollection == null) throw new ArgumentNullException(nameof(valueCollection));
@@ -34,8 +42,8 @@ namespace Dapper.Scripts.Internal
                     continue;
                 }
 
-                switch (notFoundBehavior) {
-                    case MoustacheNotFoundBehavior.Source:
+                switch (NotFoundBehavior) {
+                    case MoustacheBehavior.Source:
                         result.Append(text.Substring(x, y - x + MoustacheStartChars.Length));
                         break;
                 }
@@ -49,7 +57,7 @@ namespace Dapper.Scripts.Internal
         }
     }
 
-    public enum MoustacheNotFoundBehavior
+    public enum MoustacheBehavior
     {
         Empty,
         Source,

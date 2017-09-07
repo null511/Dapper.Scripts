@@ -33,6 +33,15 @@ namespace Dapper.Scripts.Connection
             }
         }
 
+        public T Run<T>(Func<ISqlScriptConnection, T> dbAction)
+        {
+            if (dbAction == null) throw new ArgumentNullException(nameof(dbAction));
+
+            using (var session = Connect()) {
+                return dbAction.Invoke(session);
+            }
+        }
+
         public async Task RunAsync(Func<ISqlScriptConnection, Task> dbAction)
         {
             if (dbAction == null) throw new ArgumentNullException(nameof(dbAction));
