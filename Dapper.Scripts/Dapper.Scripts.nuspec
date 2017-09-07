@@ -12,4 +12,7 @@
     <copyright>Copyright 2017</copyright>
     <tags>dapper sql script</tags>
   </metadata>
+  <dependencies>
+  	<dependency id="Dapper" version="1.50.2" />
+  </dependencies>
 </package>
