@@ -12,71 +12,72 @@ namespace Dapper.Scripts.Connection
     public class SqlScriptConnection : DbConnection, ISqlScriptConnection
     {
         private readonly ISqlScriptCollection scriptCollection;
+        private readonly DbConnection baseConnection;
 
-        internal DbConnection ConnectionBase {get;}
+        public SqlConnection SqlConnection => baseConnection as SqlConnection;
 
         public override string ConnectionString {
-            get => ConnectionBase.ConnectionString;
-            set => ConnectionBase.ConnectionString = value;
+            get => baseConnection.ConnectionString;
+            set => baseConnection.ConnectionString = value;
         }
 
-        public override int ConnectionTimeout => ConnectionBase.ConnectionTimeout;
-        public override string Database => ConnectionBase.Database;
-        public override string DataSource => (ConnectionBase as SqlConnection)?.DataSource;
-        public override string ServerVersion => (ConnectionBase as SqlConnection)?.ServerVersion;
-        public override ConnectionState State => ConnectionBase.State;
+        public override int ConnectionTimeout => baseConnection.ConnectionTimeout;
+        public override string Database => baseConnection.Database;
+        public override string DataSource => SqlConnection?.DataSource;
+        public override string ServerVersion => SqlConnection?.ServerVersion;
+        public override ConnectionState State => baseConnection.State;
 
 
         public SqlScriptConnection(ISqlScriptCollection scripts, DbConnection connection)
         {
             this.scriptCollection = scripts ?? throw new ArgumentNullException(nameof(scripts));
-            this.ConnectionBase = connection ?? throw new ArgumentNullException(nameof(connection));
+            this.baseConnection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
 
         protected override void Dispose(bool disposing)
         {
-            ConnectionBase?.Dispose();
+            baseConnection?.Dispose();
 
             base.Dispose(disposing);
         }
 
         public override void Open()
         {
-            ConnectionBase.Open();
+            baseConnection.Open();
         }
 
         public override async Task OpenAsync(CancellationToken cancellationToken)
         {
-            if (ConnectionBase is SqlConnection sqlConnection)
-                await sqlConnection.OpenAsync(cancellationToken);
+            if (SqlConnection != null)
+                await SqlConnection.OpenAsync(cancellationToken);
             else
-                ConnectionBase.Open();
+                baseConnection.Open();
         }
 
         public override void Close()
         {
-            ConnectionBase.Close();
+            baseConnection.Close();
         }
 
         protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
         {
-            if (ConnectionBase is SqlConnection sqlConnection)
-                return sqlConnection.BeginTransaction(isolationLevel);
+            if (SqlConnection != null)
+                return SqlConnection.BeginTransaction(isolationLevel);
             else
-                return ConnectionBase.BeginTransaction(isolationLevel) as DbTransaction;
+                return baseConnection.BeginTransaction(isolationLevel) as DbTransaction;
         }
 
         protected override DbCommand CreateDbCommand()
         {
-            if (ConnectionBase is SqlConnection sqlConnection)
-                return sqlConnection.CreateCommand();
+            if (SqlConnection != null)
+                return SqlConnection.CreateCommand();
             else
-                return ConnectionBase.CreateCommand() as DbCommand;
+                return baseConnection.CreateCommand() as DbCommand;
         }
 
         public override void ChangeDatabase(string databaseName)
         {
-            ConnectionBase.ChangeDatabase(databaseName);
+            baseConnection.ChangeDatabase(databaseName);
         }
 
         public string GetScriptSql(string key, object param = null)
