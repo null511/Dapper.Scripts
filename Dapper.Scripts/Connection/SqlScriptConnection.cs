@@ -13,7 +13,7 @@ namespace Dapper.Scripts.Connection
     {
         private readonly ISqlScriptCollection scriptCollection;
 
-        public IDbConnection ConnectionBase {get;}
+        internal IDbConnection ConnectionBase {get;}
 
         public override string ConnectionString {
             get => ConnectionBase.ConnectionString;

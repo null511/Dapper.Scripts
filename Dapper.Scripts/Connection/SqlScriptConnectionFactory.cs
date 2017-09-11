@@ -1,12 +1,20 @@
 ﻿using Dapper.Scripts.Collection;
 using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Connection
 {
+    public class SqlConnectionCreatedEventArgs : EventArgs
+    {
+        public IDbConnection Connection {get; set;}
+    }
+
     public class SqlScriptConnectionFactory
     {
+        public event EventHandler<SqlConnectionCreatedEventArgs> ConnectionCreated;
+
         private readonly ISqlScriptCollection scriptCollection;
 
         public string ConnectionString {get; set;}
@@ -17,11 +25,55 @@ namespace Dapper.Scripts.Connection
             scriptCollection = scripts;
         }
 
+        /// <summary>
+        /// Creates a new database connection.
+        /// </summary>
         public SqlScriptConnection Connect()
         {
-            return new SqlScriptConnection(scriptCollection, new SqlConnection()) {
-                ConnectionString = ConnectionString,
-            };
+            var dbConnection = OnCreateConnection();
+            OnConnectionCreated(dbConnection);
+
+            return new SqlScriptConnection(scriptCollection, dbConnection);
+        }
+
+        /// <summary>
+        /// Creates and opens a new database connection.
+        /// </summary>
+        public SqlScriptConnection Open()
+        {
+            var dbConnection = OnCreateConnection();
+            OnConnectionCreated(dbConnection);
+
+            var connection = new SqlScriptConnection(scriptCollection, dbConnection);
+
+            try {
+                connection.Open();
+                return connection;
+            }
+            catch {
+                connection.Dispose();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Creates and opens a new database connection asynchronously.
+        /// </summary>
+        public async Task<SqlScriptConnection> OpenAsync()
+        {
+            var dbConnection = OnCreateConnection();
+            OnConnectionCreated(dbConnection);
+
+            var connection = new SqlScriptConnection(scriptCollection, dbConnection);
+
+            try {
+                await connection.OpenAsync();
+                return connection;
+            }
+            catch {
+                connection.Dispose();
+                throw;
+            }
         }
 
         public void Run(Action<ISqlScriptConnection> dbAction)
@@ -58,6 +110,21 @@ namespace Dapper.Scripts.Connection
             using (var session = Connect()) {
                 return await dbAction.Invoke(session);
             }
+        }
+
+        protected virtual IDbConnection OnCreateConnection()
+        {
+            return new SqlConnection(ConnectionString);
+        }
+
+        private void OnConnectionCreated(IDbConnection connection)
+        {
+            try {
+                ConnectionCreated?.Invoke(this, new SqlConnectionCreatedEventArgs {
+                    Connection = connection,
+                });
+            }
+            catch {}
         }
     }
 }
