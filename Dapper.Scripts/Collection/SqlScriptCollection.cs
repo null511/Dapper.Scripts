@@ -13,7 +13,7 @@ namespace Dapper.Scripts.Collection
     /// </summary>
     public class SqlScriptCollection : ISqlScriptCollection
     {
-        private readonly Dictionary<string, string> scripts;
+        protected readonly Dictionary<string, string> scriptCollection;
 
         public SqlScriptLoader Add {get;}
         public MoustacheReplace Transform {get;}
@@ -24,9 +24,9 @@ namespace Dapper.Scripts.Collection
         /// </summary>
         public SqlScriptCollection()
         {
-            scripts = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            scriptCollection = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            Add = new SqlScriptLoader(scripts);
+            Add = new SqlScriptLoader(scriptCollection);
             Transform = new MoustacheReplace();
         }
 
@@ -35,12 +35,12 @@ namespace Dapper.Scripts.Collection
         /// </summary>
         public SqlScriptCollection(StringComparer keyComparer)
         {
-            scripts = new Dictionary<string, string>(keyComparer);
+            scriptCollection = new Dictionary<string, string>(keyComparer);
         }
 
         public string GetScriptSql(string key, object param = null)
         {
-            if (!scripts.TryGetValue(key, out string sql))
+            if (!scriptCollection.TryGetValue(key, out string sql))
                 throw new ApplicationException($"SQL-Script '{key}' was not found!");
 
             return OnTransform(sql, param);
