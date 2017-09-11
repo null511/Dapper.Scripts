@@ -13,61 +13,70 @@ namespace Dapper.Scripts.Connection
     {
         private readonly ISqlScriptCollection scriptCollection;
 
-        public SqlConnection SqlConnection {get;}
+        public IDbConnection ConnectionBase {get;}
 
         public override string ConnectionString {
-            get => SqlConnection.ConnectionString;
-            set => SqlConnection.ConnectionString = value;
+            get => ConnectionBase.ConnectionString;
+            set => ConnectionBase.ConnectionString = value;
         }
 
-        public override int ConnectionTimeout => SqlConnection.ConnectionTimeout;
-        public override string Database => SqlConnection.Database;
-        public override string DataSource => SqlConnection.DataSource;
-        public override string ServerVersion => SqlConnection.ServerVersion;
-        public override ConnectionState State => SqlConnection.State;
+        public override int ConnectionTimeout => ConnectionBase.ConnectionTimeout;
+        public override string Database => ConnectionBase.Database;
+        public override string DataSource => (ConnectionBase as SqlConnection)?.DataSource;
+        public override string ServerVersion => (ConnectionBase as SqlConnection)?.ServerVersion;
+        public override ConnectionState State => ConnectionBase.State;
 
 
-        public SqlScriptConnection(ISqlScriptCollection scripts, SqlConnection connection)
+        public SqlScriptConnection(ISqlScriptCollection scripts, IDbConnection connection)
         {
             this.scriptCollection = scripts ?? throw new ArgumentNullException(nameof(scripts));
-            this.SqlConnection = connection ?? throw new ArgumentNullException(nameof(connection));
+            this.ConnectionBase = connection ?? throw new ArgumentNullException(nameof(connection));
         }
 
         protected override void Dispose(bool disposing)
         {
-            SqlConnection?.Dispose();
+            ConnectionBase?.Dispose();
 
             base.Dispose(disposing);
         }
 
         public override void Open()
         {
-            SqlConnection.Open();
+            ConnectionBase.Open();
         }
 
-        public override Task OpenAsync(CancellationToken cancellationToken)
+        public override async Task OpenAsync(CancellationToken cancellationToken)
         {
-            return SqlConnection.OpenAsync(cancellationToken);
+            if (ConnectionBase is SqlConnection sqlConnection)
+                await sqlConnection.OpenAsync(cancellationToken);
+
+            ConnectionBase.Open();
         }
 
         public override void Close()
         {
-            SqlConnection.Close();
+            ConnectionBase.Close();
         }
 
         protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
         {
-            return SqlConnection.BeginTransaction();
+            if (ConnectionBase is SqlConnection sqlConnection)
+                return sqlConnection.BeginTransaction(isolationLevel);
+
+            return ConnectionBase.BeginTransaction(isolationLevel) as DbTransaction;
         }
 
         protected override DbCommand CreateDbCommand()
         {
-            return SqlConnection.CreateCommand();
+            if (ConnectionBase is SqlConnection sqlConnection)
+                return sqlConnection.CreateCommand();
+
+            return ConnectionBase.CreateCommand() as DbCommand;
         }
 
         public override void ChangeDatabase(string databaseName)
         {
-            SqlConnection.ChangeDatabase(databaseName);
+            ConnectionBase.ChangeDatabase(databaseName);
         }
 
         public string GetScriptSql(string key, object param = null)
