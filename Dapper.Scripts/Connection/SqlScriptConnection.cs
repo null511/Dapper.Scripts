@@ -13,7 +13,7 @@ namespace Dapper.Scripts.Connection
     {
         private readonly ISqlScriptCollection scriptCollection;
 
-        internal IDbConnection ConnectionBase {get;}
+        internal DbConnection ConnectionBase {get;}
 
         public override string ConnectionString {
             get => ConnectionBase.ConnectionString;
@@ -27,7 +27,7 @@ namespace Dapper.Scripts.Connection
         public override ConnectionState State => ConnectionBase.State;
 
 
-        public SqlScriptConnection(ISqlScriptCollection scripts, IDbConnection connection)
+        public SqlScriptConnection(ISqlScriptCollection scripts, DbConnection connection)
         {
             this.scriptCollection = scripts ?? throw new ArgumentNullException(nameof(scripts));
             this.ConnectionBase = connection ?? throw new ArgumentNullException(nameof(connection));
@@ -49,8 +49,8 @@ namespace Dapper.Scripts.Connection
         {
             if (ConnectionBase is SqlConnection sqlConnection)
                 await sqlConnection.OpenAsync(cancellationToken);
-
-            ConnectionBase.Open();
+            else
+                ConnectionBase.Open();
         }
 
         public override void Close()
@@ -62,16 +62,16 @@ namespace Dapper.Scripts.Connection
         {
             if (ConnectionBase is SqlConnection sqlConnection)
                 return sqlConnection.BeginTransaction(isolationLevel);
-
-            return ConnectionBase.BeginTransaction(isolationLevel) as DbTransaction;
+            else
+                return ConnectionBase.BeginTransaction(isolationLevel) as DbTransaction;
         }
 
         protected override DbCommand CreateDbCommand()
         {
             if (ConnectionBase is SqlConnection sqlConnection)
                 return sqlConnection.CreateCommand();
-
-            return ConnectionBase.CreateCommand() as DbCommand;
+            else
+                return ConnectionBase.CreateCommand() as DbCommand;
         }
 
         public override void ChangeDatabase(string databaseName)

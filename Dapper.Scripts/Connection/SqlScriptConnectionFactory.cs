@@ -1,6 +1,7 @@
 ﻿using Dapper.Scripts.Collection;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -112,14 +113,12 @@ namespace Dapper.Scripts.Connection
             }
         }
 
-        protected virtual IDbConnection OnCreateConnection()
+        protected virtual DbConnection OnCreateConnection()
         {
-            return new SqlConnection {
-                ConnectionString = ConnectionString,
-            };
+            return new SqlConnection(ConnectionString);
         }
 
-        private void OnConnectionCreated(IDbConnection connection)
+        private void OnConnectionCreated(DbConnection connection)
         {
             try {
                 ConnectionCreated?.Invoke(this, new SqlConnectionCreatedEventArgs {
