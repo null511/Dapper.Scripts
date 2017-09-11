@@ -114,7 +114,9 @@ namespace Dapper.Scripts.Connection
 
         protected virtual IDbConnection OnCreateConnection()
         {
-            return new SqlConnection(ConnectionString);
+            return new SqlConnection {
+                ConnectionString = ConnectionString,
+            };
         }
 
         private void OnConnectionCreated(IDbConnection connection)
