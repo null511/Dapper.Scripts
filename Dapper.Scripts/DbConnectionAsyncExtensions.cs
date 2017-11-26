@@ -6,26 +6,53 @@ using System.Threading.Tasks;
 
 namespace Dapper.Scripts
 {
+    /// <summary>
+    /// Collection of extension methods for using Dapper with Scripts asynchronously.
+    /// </summary>
     public static class DbConnectionAsyncExtensions
     {
+        /// <summary>
+        /// Execute a SQL script asynchronously.
+        /// </summary>
+        /// <param name="connection">The database connection.</param>
+        /// <param name="key">The named identifier of the SQL script.</param>
+        /// <param name="param">Optional collection of parameters used by SQL script and transformer.</param>
         public static async Task<int> ExecuteScriptAsync(this ISqlScriptConnection connection, string key, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
             var sql = connection.GetScriptSql(key, param);
             return await connection.ExecuteAsync(sql, param, transaction, commandTimeout, commandType);
         }
 
+        /// <summary>
+        /// Execute a parameterized SQL script asynchronously and return an <seealso cref="IDataReader"/>.
+        /// </summary>
+        /// <param name="connection">The database connection.</param>
+        /// <param name="key">The named identifier of the SQL script.</param>
+        /// <param name="param">Optional collection of parameters used by SQL script and transformer.</param>
         public static async Task<IDataReader> ExecuteReaderScriptAsync(this ISqlScriptConnection connection, string key, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
             var sql = connection.GetScriptSql(key, param);
             return await connection.ExecuteReaderAsync(sql, param, transaction, commandTimeout, commandType);
         }
 
+        /// <summary>
+        /// Execute a parameterized SQL script asynchronously that selects a single value.
+        /// </summary>
+        /// <param name="connection">The database connection.</param>
+        /// <param name="key">The named identifier of the SQL script.</param>
+        /// <param name="param">Optional collection of parameters used by SQL script and transformer.</param>
         public static async Task<object> ExecuteScalarScriptAsync(this ISqlScriptConnection connection, string key, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
             var sql = connection.GetScriptSql(key, param);
             return await connection.ExecuteScalarAsync(sql, param, transaction, commandTimeout, commandType);
         }
 
+        /// <summary>
+        /// Execute a parameterized SQL script asynchronously that selects a single value.
+        /// </summary>
+        /// <param name="connection">The database connection.</param>
+        /// <param name="key">The named identifier of the SQL script.</param>
+        /// <param name="param">Optional collection of parameters used by SQL script and transformer.</param>
         public static async Task<T> ExecuteScalarScriptAsync<T>(this ISqlScriptConnection connection, string key, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
             var sql = connection.GetScriptSql(key, param);

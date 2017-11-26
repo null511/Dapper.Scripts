@@ -16,7 +16,7 @@ namespace Dapper.Scripts.Collection
         protected readonly Dictionary<string, string> scriptCollection;
 
         public SqlScriptLoader Add {get;}
-        public MoustacheReplace Transform {get;}
+        public SqlTransformUtility Transform {get;}
 
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Dapper.Scripts.Collection
             scriptCollection = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             Add = new SqlScriptLoader(scriptCollection);
-            Transform = new MoustacheReplace();
+            Transform = new SqlTransformUtility();
         }
 
         /// <summary>

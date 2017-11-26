@@ -8,32 +8,54 @@ using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Connection
 {
+    /// <summary>
+    /// Binds a database connection to a collection of SQL scripts.
+    /// </summary>
     [System.ComponentModel.DesignerCategory("")]
     public class SqlScriptConnection : DbConnection, ISqlScriptConnection
     {
         private readonly ISqlScriptCollection scriptCollection;
         private readonly DbConnection baseConnection;
 
+        /// <summary>
+        /// Gets the current connection as a <seealso cref="System.Data.SqlClient.SqlConnection"/>.
+        /// </summary>
         public SqlConnection SqlConnection => baseConnection as SqlConnection;
 
+        /// <summary>
+        /// Gets or Sets the string used to open a database connection.
+        /// </summary>
         public override string ConnectionString {
             get => baseConnection.ConnectionString;
             set => baseConnection.ConnectionString = value;
         }
 
         public override int ConnectionTimeout => baseConnection.ConnectionTimeout;
+
         public override string Database => baseConnection.Database;
+
         public override string DataSource => SqlConnection?.DataSource;
+
         public override string ServerVersion => SqlConnection?.ServerVersion;
+
         public override ConnectionState State => baseConnection.State;
 
 
+        /// <summary>
+        /// Creates a new instance of <see cref="SqlScriptCollection"/>
+        /// binding the provided database connection and script collection.
+        /// </summary>
+        /// <param name="scripts"></param>
+        /// <param name="connection"></param>
         public SqlScriptConnection(ISqlScriptCollection scripts, DbConnection connection)
         {
             this.scriptCollection = scripts ?? throw new ArgumentNullException(nameof(scripts));
             this.baseConnection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
 
+        /// <summary>
+        /// Releases all resources used by the connection.
+        /// </summary>
         protected override void Dispose(bool disposing)
         {
             baseConnection?.Dispose();
@@ -41,48 +63,80 @@ namespace Dapper.Scripts.Connection
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Opens a connection to the database.
+        /// </summary>
         public override void Open()
         {
             baseConnection.Open();
         }
 
+        /// <summary>
+        /// Opens a connection to the database asynchronously.
+        /// </summary>
+        /// <param name="cancellationToken">Token for cancelling connection request.</param>
         public override async Task OpenAsync(CancellationToken cancellationToken)
         {
-            if (SqlConnection != null)
-                await SqlConnection.OpenAsync(cancellationToken);
+            if (baseConnection is SqlConnection sqlConnection)
+                await sqlConnection.OpenAsync(cancellationToken);
             else
                 baseConnection.Open();
         }
 
+        /// <summary>
+        /// Closes the connection to the database.
+        /// </summary>
         public override void Close()
         {
             baseConnection.Close();
         }
 
+        /// <summary>
+        /// Starts a database transaction with the specified isolation level.
+        /// </summary>
+        /// <param name="isolationLevel">The isolation level under which the transaction should run.</param>
+        /// <exception cref="SqlException"/>
+        /// <exception cref="InvalidOperationException"/>
         protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
         {
-            if (SqlConnection != null)
-                return SqlConnection.BeginTransaction(isolationLevel);
+            if (baseConnection is SqlConnection sqlConnection)
+                return sqlConnection.BeginTransaction(isolationLevel);
             else
-                return baseConnection.BeginTransaction(isolationLevel) as DbTransaction;
+                return baseConnection.BeginTransaction(isolationLevel);
         }
 
+        /// <summary>
+        /// Creates and returns a <seealso cref="SqlCommand"/>
+        /// object associated with the connection.
+        /// </summary>
         protected override DbCommand CreateDbCommand()
         {
-            if (SqlConnection != null)
-                return SqlConnection.CreateCommand();
+            if (baseConnection is SqlConnection sqlConnection)
+                return sqlConnection.CreateCommand();
             else
-                return baseConnection.CreateCommand() as DbCommand;
+                return baseConnection.CreateCommand();
         }
 
-        public override void ChangeDatabase(string databaseName)
+        /// <summary>
+        /// Changes the current database for an open connection.
+        /// </summary>
+        /// <param name="database">The name of the database to use.</param>
+        public override void ChangeDatabase(string database)
         {
-            baseConnection.ChangeDatabase(databaseName);
+            if (baseConnection is SqlConnection sqlConnection)
+                sqlConnection.ChangeDatabase(database);
+            else
+                baseConnection.ChangeDatabase(database);
         }
 
-        public string GetScriptSql(string key, object param = null)
+        /// <summary>
+        /// Gets the SQL script identified by '<paramref name="key"/>', optionally transformed by '<paramref name="valueCollection"/>'.
+        /// </summary>
+        /// <param name="key">The scripts key.</param>
+        /// <param name="valueCollection">Optional collection of values for transforming script.</param>
+        public string GetScriptSql(string key, object valueCollection = null)
         {
-            return scriptCollection.GetScriptSql(key, param);
+            return scriptCollection.GetScriptSql(key, valueCollection);
         }
     }
 }
