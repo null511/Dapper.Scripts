@@ -55,6 +55,7 @@
     <Compile Include="Connection\SqlScriptConnectionFactory.cs" />
     <Compile Include="Collection\SqlScriptCollection.cs" />
     <Compile Include="Connection\SqlScriptConnection.cs" />
+    <Compile Include="ScriptCommandDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
