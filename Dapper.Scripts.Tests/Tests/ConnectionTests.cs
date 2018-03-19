@@ -1,13 +1,13 @@
 ﻿using Dapper.Scripts.Connection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ConnectionTests
     {
-        [TestMethod]
+        [Test]
         public async Task CanConnect()
         {
             using (var connection = Database.Testing.Connect()) {
@@ -15,7 +15,7 @@ namespace Dapper.Scripts.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public async Task CanConnect_WithEvent()
         {
             var calledEvent = false;

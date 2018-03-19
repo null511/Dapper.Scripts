@@ -1,16 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class SqlQueryTests
     {
         public TestContext TestContext {get; set;}
 
 
-        [TestMethod]
+        [Test]
         public void CanSqlQuery()
         {
             using (var connection = Database.Testing.Open()) {
@@ -23,7 +23,7 @@ namespace Dapper.Scripts.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public async Task CanSqlQueryAsync()
         {
             using (var connection = await Database.Testing.OpenAsync()) {
