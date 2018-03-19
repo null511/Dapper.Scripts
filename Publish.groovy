@@ -16,6 +16,23 @@ pipeline {
 				"""
 			}
 		}
+		stage('Unit Test') {
+			steps {
+				bat "nunit3-console \"Dapper.Scripts.Tests\\bin\\Release\\Dapper.Scripts.Tests.dll\" --result=\"Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml\""
+			}
+			post {
+				always {
+					archiveArtifacts artifacts: "Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml"
+
+					step([$class: 'NUnitPublisher',
+						testResultsPattern: "Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml",
+						keepJUnitReports: true,
+						skipJUnitArchiver: false,
+						failIfNoResults: true,
+						debug: false])
+				}
+			}
+		}		
 		stage('Deploy') {
 			steps {
 				bat "CALL bin\\Publish.cmd"

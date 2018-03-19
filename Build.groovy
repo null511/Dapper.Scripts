@@ -8,16 +8,16 @@ pipeline {
 			steps {
 				bat """
 					nuget restore
-					CALL bin\\msbuild_where.cmd \"Dapper.Scripts.sln\" /p:Configuration=Release /p:Platform=\"Any CPU\" /m
+					
+					CALL bin\\msbuild_where.cmd \"Dapper.Scripts.sln\" /m ^
+						/p:Configuration=Release ^
+						/p:Platform=\"Any CPU\" ^
+						/target:Build
 				"""
-
-				//stash name: "unit-tests", includes: "Dapper.Scripts.Tests\\bin\\Release\\**"
 			}
 		}
 		stage('Unit Test') {
 			steps {
-				//unstash "unit-tests"
-
 				bat "nunit3-console \"Dapper.Scripts.Tests\\bin\\Release\\Dapper.Scripts.Tests.dll\" --result=\"Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml\""
 			}
 			post {
