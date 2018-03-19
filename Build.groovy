@@ -18,7 +18,7 @@ pipeline {
 			steps {
 				//unstash "unit-tests"
 
-				bat "nunit3-console \"Dapper.Scripts.Tests\\Dapper.Scripts.Tests.csproj\""
+				bat "nunit3-console \"Dapper.Scripts.Tests\\bin\\Release\\Dapper.Scripts.Tests.dll\""
 			}
 			post {
 				always {
