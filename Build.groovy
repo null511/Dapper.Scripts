@@ -18,14 +18,14 @@ pipeline {
 			steps {
 				//unstash "unit-tests"
 
-				bat "nunit3-console \"Dapper.Scripts.Tests\\bin\\Release\\Dapper.Scripts.Tests.dll\""
+				bat "nunit3-console \"Dapper.Scripts.Tests\\bin\\Release\\Dapper.Scripts.Tests.dll\" --result=\"Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml\""
 			}
 			post {
 				always {
-					archiveArtifacts artifacts: "Dapper.Scripts.Tests\\bin\\Release\\TestResult.xml"
+					archiveArtifacts artifacts: "Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml"
 
 					step([$class: 'NUnitPublisher',
-						testResultsPattern: "Dapper.Scripts.Tests\\bin\\Release\\TestResult.xml",
+						testResultsPattern: "Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml",
 						keepJUnitReports: true,
 						skipJUnitArchiver: false,
 						failIfNoResults: true,
