@@ -22,10 +22,10 @@ pipeline {
 			}
 			post {
 				always {
-					archiveArtifacts artifacts: "Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml"
+					archiveArtifacts artifacts: "Dapper.Scripts.Tests\\bin\\Release\\TestResult.xml"
 
 					step([$class: 'NUnitPublisher',
-						testResultsPattern: "Dapper.Scripts.Tests\\bin\\Release\\TestResults.xml",
+						testResultsPattern: "Dapper.Scripts.Tests\\bin\\Release\\TestResult.xml",
 						keepJUnitReports: true,
 						skipJUnitArchiver: false,
 						failIfNoResults: true,
