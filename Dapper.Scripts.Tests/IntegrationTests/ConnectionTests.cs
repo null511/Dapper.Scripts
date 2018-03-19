@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Tests
 {
-    [TestFixture]
+    [TestFixture, Category("integration")]
     public class ConnectionTests
     {
         [Test]

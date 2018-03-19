@@ -4,17 +4,17 @@ using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Tests
 {
-    [TestFixture]
-    public class ScriptQueryTests
+    [TestFixture, Category("integration")]
+    public class SqlQueryTests
     {
         public TestContext TestContext {get; set;}
 
 
         [Test]
-        public void CanScriptQuery()
+        public void CanSqlQuery()
         {
             using (var connection = Database.Testing.Open()) {
-                var fruitList = connection.QueryScript("SelectAllFruitNames.sql").ToArray();
+                var fruitList = connection.Query("select [Name] from [dbo].[Fruit]").ToArray();
                 var allFruit = fruitList.Select(x => (string)x.Name).ToArray();
                 TestContext.WriteLine(string.Join(", ", allFruit));
 
@@ -24,10 +24,10 @@ namespace Dapper.Scripts.Tests
         }
 
         [Test]
-        public async Task CanScriptQueryAsync()
+        public async Task CanSqlQueryAsync()
         {
             using (var connection = await Database.Testing.OpenAsync()) {
-                var fruitList = (await connection.QueryScriptAsync("SelectAllFruitNames.sql")).ToArray();
+                var fruitList = (await connection.QueryAsync("select [Name] from [dbo].[Fruit]")).ToArray();
                 var allFruit = fruitList.Select(x => (string)x.Name).ToArray();
                 TestContext.WriteLine(string.Join(", ", allFruit));
 

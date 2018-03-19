@@ -53,10 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.cs" />
-    <Compile Include="Tests\ConnectionTests.cs" />
-    <Compile Include="Tests\ScriptQueryTests.cs" />
-    <Compile Include="Tests\SqlQueryTests.cs" />
+    <Compile Include="IntegrationTests\ConnectionTests.cs" />
+    <Compile Include="IntegrationTests\ScriptQueryTests.cs" />
+    <Compile Include="IntegrationTests\SqlQueryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\ScriptCommandDefinitionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
