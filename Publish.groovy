@@ -10,13 +10,13 @@ pipeline {
 					nuget restore
 
 					CALL bin\\msbuild_where.cmd \"Dapper.Scripts.sln\" /m ^
-						/p:Configuration=Release ^
+						/p:Configuration=\"Release\" ^
 						/p:Platform=\"Any CPU\" ^
 						/target:Build
 				"""
 			}
 		}
-		stage('Unit Test') {
+		stage('Test') {
 			steps {
 				bat """
 					nunit3-console \"Dapper.Scripts.Tests\\bin\\Release\\Dapper.Scripts.Tests.dll\" ^

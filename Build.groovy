@@ -16,7 +16,7 @@ pipeline {
 				"""
 			}
 		}
-		stage('Unit Test') {
+		stage('Test') {
 			steps {
 				bat """
 					nunit3-console \"Dapper.Scripts.Tests\\bin\\Release\\Dapper.Scripts.Tests.dll\" ^
