@@ -13,10 +13,21 @@ namespace Dapper.Scripts.Collection
     /// </summary>
     public class SqlScriptCollection : ISqlScriptCollection
     {
-        protected readonly Dictionary<string, string> scriptCollection;
+        /// <summary>
+        /// Gets the collection of key-based scripts.
+        /// </summary>
+        protected Dictionary<string, string> ScriptCollection {get;}
 
+        /// <summary>
+        /// Gets an instance of <see cref="SqlScriptLoader"/>
+        /// which adds scripts to this collection.
+        /// </summary>
         public SqlScriptLoader Add {get;}
-        public SqlTransformUtility Transform {get;}
+
+        /// <summary>
+        /// Gets or sets the implementation used to transform SQL scripts.
+        /// </summary>
+        public ISqlTransformer Transform {get; set;}
 
 
         /// <summary>
@@ -24,9 +35,9 @@ namespace Dapper.Scripts.Collection
         /// </summary>
         public SqlScriptCollection()
         {
-            scriptCollection = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            ScriptCollection = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            Add = new SqlScriptLoader(scriptCollection);
+            Add = new SqlScriptLoader(ScriptCollection);
             Transform = new SqlTransformUtility();
         }
 
@@ -35,18 +46,31 @@ namespace Dapper.Scripts.Collection
         /// </summary>
         public SqlScriptCollection(StringComparer keyComparer)
         {
-            scriptCollection = new Dictionary<string, string>(keyComparer);
+            ScriptCollection = new Dictionary<string, string>(keyComparer);
         }
 
+        /// <summary>
+        /// Gets a script using the provided <paramref name="key"/>.
+        /// </summary>
+        /// <param name="key">The key referencing the SQL script.</param>
+        /// <param name="param">An optional collection of parameters to be transformed into the SQL script.</param>
+        /// <returns>A transformed SQL script from this collection.</returns>
+        /// <exception cref="ScriptNotFoundException" />
         public string GetScriptSql(string key, object param = null)
         {
-            if (!scriptCollection.TryGetValue(key, out string sql))
-                throw new ApplicationException($"SQL-Script '{key}' was not found!");
+            if (!ScriptCollection.TryGetValue(key, out string sql))
+                throw new ScriptNotFoundException(key);
 
             return OnTransform(sql, param);
         }
 
-        protected virtual string OnTransform(string sql, object param)
+        /// <summary>
+        /// Transforms the provided <paramref name="sql"/> string.
+        /// </summary>
+        /// <param name="sql">The SQL string.</param>
+        /// <param name="param">An optional collection of parameters.</param>
+        /// <returns>A transformed SQL string.</returns>
+        protected virtual string OnTransform(string sql, object param = null)
         {
             var args = param == null
                 ? new Dictionary<string, object>()

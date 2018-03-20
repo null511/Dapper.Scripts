@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Connection
 {
+    /// <summary>
+    /// Describes the creation of a connection.
+    /// </summary>
     public class SqlConnectionCreatedEventArgs : EventArgs
     {
         /// <summary>
@@ -122,6 +125,10 @@ namespace Dapper.Scripts.Connection
             }
         }
 
+        /// <summary>
+        /// Creates a database connection for the provided
+        /// <paramref name="dbAction"/>, and closes it after completion.
+        /// </summary>
         public async Task RunAsync(Func<ISqlScriptConnection, Task> dbAction)
         {
             if (dbAction == null) throw new ArgumentNullException(nameof(dbAction));
@@ -131,6 +138,11 @@ namespace Dapper.Scripts.Connection
             }
         }
 
+        /// <summary>
+        /// Creates a database connection for the provided
+        /// <paramref name="dbAction"/>, and closes it after completion.
+        /// </summary>
+        /// <typeparam name="T">Type of result returned by <paramref name="dbAction"/>.</typeparam>
         public async Task<T> RunAsync<T>(Func<ISqlScriptConnection, Task<T>> dbAction)
         {
             if (dbAction == null) throw new ArgumentNullException(nameof(dbAction));

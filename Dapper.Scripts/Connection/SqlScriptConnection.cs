@@ -30,14 +30,33 @@ namespace Dapper.Scripts.Connection
             set => baseConnection.ConnectionString = value;
         }
 
+        /// <summary>
+        /// Gets the time to wait while establishing a connection
+        /// before terminating the attempt and generating an error.
+        /// </summary>
         public override int ConnectionTimeout => baseConnection.ConnectionTimeout;
 
+        /// <summary>
+        /// Gets the name of the current database after a connection
+        /// is opened, or the database name specified in the connection
+        /// string before the connection is opened.
+        /// </summary>
         public override string Database => baseConnection.Database;
 
+        /// <summary>
+        /// Gets the name of the instance of SQL Server to which to connect.
+        /// </summary>
         public override string DataSource => SqlConnection?.DataSource;
 
+        /// <summary>
+        /// Gets a string that contains the version of the instance
+        /// of SQL server to which the client is connected.
+        /// </summary>
         public override string ServerVersion => SqlConnection?.ServerVersion;
 
+        /// <summary>
+        /// Gets the state of the connection.
+        /// </summary>
         public override ConnectionState State => baseConnection.State;
 
 

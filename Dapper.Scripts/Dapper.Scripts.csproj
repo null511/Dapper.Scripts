@@ -21,8 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Dapper.Scripts.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,6 +48,7 @@
     <Compile Include="DbConnectionExtensions.cs" />
     <Compile Include="Collection\ISqlScriptCollection.cs" />
     <Compile Include="Connection\ISqlScriptConnection.cs" />
+    <Compile Include="Internal\ISqlTransformer.cs" />
     <Compile Include="Internal\SqlTransformUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Collection\SqlScriptLoader.cs" />
@@ -56,6 +56,7 @@
     <Compile Include="Collection\SqlScriptCollection.cs" />
     <Compile Include="Connection\SqlScriptConnection.cs" />
     <Compile Include="ScriptCommandDefinition.cs" />
+    <Compile Include="ScriptNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

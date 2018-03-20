@@ -8,7 +8,7 @@ namespace Dapper.Scripts.Internal
     /// Transforms a string containing SQL by replacing
     /// custom named tags with dictionary values.
     /// </summary>
-    public class SqlTransformUtility
+    public class SqlTransformUtility : ISqlTransformer
     {
         /// <summary>
         /// The transform behavior to use when a tag value
