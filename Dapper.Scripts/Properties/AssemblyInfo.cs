@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyVersion("2.2.1")]
-[assembly: AssemblyFileVersion("2.2.1")]
+[assembly: AssemblyVersion("2.2.2")]
+[assembly: AssemblyFileVersion("2.2.2")]
 [assembly: AssemblyTitle("Dapper Scripts")]
 [assembly: AssemblyProduct("Dapper Scripts")]
 [assembly: AssemblyCompany("Joshua Miller")]

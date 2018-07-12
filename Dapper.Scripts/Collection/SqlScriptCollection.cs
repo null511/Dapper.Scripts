@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Dapper.Scripts.Collection
 {
@@ -72,17 +71,17 @@ namespace Dapper.Scripts.Collection
         /// <returns>A transformed SQL string.</returns>
         protected virtual string OnTransform(string sql, object param = null)
         {
-            var args = param == null
-                ? new Dictionary<string, object>()
-                : ToDictionary(param, StringComparer.OrdinalIgnoreCase);
+            if (param == null || Transform == null) return sql;
+
+            if (!(param is IDictionary<string, object> args))
+                args = ToDictionary(param, StringComparer.OrdinalIgnoreCase);
 
             return Transform.Replace(sql, args);
         }
 
         private static IDictionary<string, object> ToDictionary(object parameters, IEqualityComparer<string> comparer = null)
         {
-            return parameters.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            return parameters.GetType().GetProperties()
                 .Select(property => new KeyValuePair<string, object>(property.Name, property.GetValue(parameters)))
                 .ToDictionary(x => x.Key, x => x.Value, comparer);
         }
