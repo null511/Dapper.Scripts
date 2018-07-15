@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dapper.Scripts.Internal
+namespace Dapper.Scripts.Text
 {
     /// <summary>
     /// Describes an implementation that transforms

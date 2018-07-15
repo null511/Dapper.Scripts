@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dapper.Scripts.Internal
+namespace Dapper.Scripts.Text
 {
     /// <summary>
     /// Transforms a string containing SQL by replacing

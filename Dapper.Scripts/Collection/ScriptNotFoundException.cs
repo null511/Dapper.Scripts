@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dapper.Scripts
+namespace Dapper.Scripts.Collection
 {
     /// <summary>
     /// An exception describing a SQL script that was not found.

@@ -8,27 +8,16 @@ using System.Threading.Tasks;
 namespace Dapper.Scripts.Connection
 {
     /// <summary>
-    /// Describes the creation of a connection.
-    /// </summary>
-    public class SqlConnectionCreatedEventArgs : EventArgs
-    {
-        /// <summary>
-        /// The database connection created by <see cref="SqlScriptConnectionFactory"/>.
-        /// </summary>
-        public IDbConnection Connection {get; set;}
-    }
-
-    /// <summary>
     /// Creates database connections bound to a collection of SQL scripts.
     /// </summary>
     public class SqlScriptConnectionFactory
     {
+        private readonly ISqlScriptCollection scriptCollection;
+
         /// <summary>
         /// Occurs when a database connection is created, before being returned to the caller.
         /// </summary>
         public event EventHandler<SqlConnectionCreatedEventArgs> ConnectionCreated;
-
-        private readonly ISqlScriptCollection scriptCollection;
 
         /// <summary>
         /// Connection String used for creating database connections.
@@ -160,7 +149,7 @@ namespace Dapper.Scripts.Connection
             return new SqlConnection(ConnectionString);
         }
 
-        private void OnConnectionCreated(DbConnection connection)
+        private void OnConnectionCreated(IDbConnection connection)
         {
             try {
                 ConnectionCreated?.Invoke(this, new SqlConnectionCreatedEventArgs {

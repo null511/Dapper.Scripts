@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Dapper.Scripts.Internal
+namespace Dapper.Scripts.Text
 {
     internal static class SqlDebugPrinter
     {

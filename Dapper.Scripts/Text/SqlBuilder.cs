@@ -1,9 +1,8 @@
-﻿using Dapper.Scripts.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dapper.Scripts
+namespace Dapper.Scripts.Text
 {
     /// <summary>
     /// Builds a SQL statement by appending text and auto-indexed parameters.

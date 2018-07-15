@@ -1,4 +1,4 @@
-﻿using Dapper.Scripts.Internal;
+﻿using Dapper.Scripts.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
