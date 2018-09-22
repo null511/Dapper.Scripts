@@ -1,38 +1,35 @@
-﻿using NUnit.Framework;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace Dapper.Scripts.Tests
+namespace Dapper.Scripts.Tests.IntegrationTests
 {
-    [TestFixture, Category("integration")]
     public class ScriptQueryTests
     {
-        public TestContext TestContext {get; set;}
-
-
-        [Test]
+        [Fact]
+        [Trait("Category", "Integration")]
         public void CanScriptQuery()
         {
             using (var connection = Database.Testing.Open()) {
                 var fruitList = connection.QueryScript("SelectAllFruitNames.sql").ToArray();
                 var allFruit = fruitList.Select(x => (string)x.Name).ToArray();
-                TestContext.WriteLine(string.Join(", ", allFruit));
+                Console.Out.WriteLine(string.Join(", ", allFruit));
 
-                if (!allFruit.Any())
-                    Assert.Fail("No items were returned!");
+                Assert.NotEmpty(allFruit);
             }
         }
 
-        [Test]
+        [Fact]
+        [Trait("Category", "Integration")]
         public async Task CanScriptQueryAsync()
         {
             using (var connection = await Database.Testing.OpenAsync()) {
                 var fruitList = (await connection.QueryScriptAsync("SelectAllFruitNames.sql")).ToArray();
                 var allFruit = fruitList.Select(x => (string)x.Name).ToArray();
-                TestContext.WriteLine(string.Join(", ", allFruit));
+                Console.Out.WriteLine(string.Join(", ", allFruit));
 
-                if (!allFruit.Any())
-                    Assert.Fail("No items were returned!");
+                Assert.NotEmpty(allFruit);
             }
         }
     }

@@ -17,8 +17,8 @@ namespace Dapper.Scripts
         /// <summary>
         /// Gets or sets the parameters used with the command.
         /// </summary>
-        public dynamic Parameters {get; set;}
-
+        public object Parameters {get; set;}
+        
         /// <summary>
         /// Gets or sets the active transaction for the command.
         /// </summary>

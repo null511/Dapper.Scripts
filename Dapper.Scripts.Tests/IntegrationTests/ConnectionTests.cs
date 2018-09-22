@@ -1,13 +1,13 @@
 ﻿using Dapper.Scripts.Connection;
-using NUnit.Framework;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace Dapper.Scripts.Tests
+namespace Dapper.Scripts.Tests.IntegrationTests
 {
-    [TestFixture, Category("integration")]
     public class ConnectionTests
     {
-        [Test]
+        [Fact]
+        [Trait("Category", "Integration")]
         public async Task CanConnect()
         {
             using (var connection = Database.Testing.Connect()) {
@@ -15,7 +15,8 @@ namespace Dapper.Scripts.Tests
             }
         }
 
-        [Test]
+        [Fact]
+        [Trait("Category", "Integration")]
         public async Task CanConnect_WithEvent()
         {
             var calledEvent = false;
@@ -31,7 +32,7 @@ namespace Dapper.Scripts.Tests
                     await connection.OpenAsync();
                 }
 
-                Assert.IsTrue(calledEvent, "ConnectionCreated Event was not fired!");
+                Assert.True(calledEvent, "ConnectionCreated Event was not fired!");
             }
             finally {
                 Database.Testing.ConnectionCreated -= ConnectionCreatedEvent;

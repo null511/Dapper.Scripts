@@ -1,66 +1,41 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D03FF2BD-E9B3-40B5-9E7F-547BF5401DC9}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>net451;netstandard1.3;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup>
     <RootNamespace>Dapper.Scripts</RootNamespace>
-    <AssemblyName>Dapper.Scripts</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Dapper.Scripts.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Dapper.Scripts.xml</DocumentationFile>
+    <PackageId>dapper.scripts</PackageId>
+    <Product>Dapper Scripts</Product>
+    <Company>Joshua Miller</Company>
+    <Authors>null511</Authors>
+    <Description>Extends Dapper by using additional extension methods to support external SQL script collections.</Description>
+    <Copyright>Copyright © 2018</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>2.3.0</Version>
+    <FileVersion>2.3.0</FileVersion>
+    <AssemblyVersion>2.3.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Dapper" Version="1.50.4" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Connection\SqlConnectionCreatedEventArgs.cs" />
-    <Compile Include="DbConnectionAsyncExtensions.cs" />
-    <Compile Include="DbConnectionExtensions.cs" />
-    <Compile Include="Collection\ISqlScriptCollection.cs" />
-    <Compile Include="Connection\ISqlScriptConnection.cs" />
-    <Compile Include="Text\ISqlTransformer.cs" />
-    <Compile Include="Text\SqlDebugPrinter.cs" />
-    <Compile Include="Text\SqlTransformUtility.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Collection\SqlScriptLoader.cs" />
-    <Compile Include="Connection\SqlScriptConnectionFactory.cs" />
-    <Compile Include="Collection\SqlScriptCollection.cs" />
-    <Compile Include="Connection\SqlScriptConnection.cs" />
-    <Compile Include="ScriptCommandDefinition.cs" />
-    <Compile Include="Collection\ScriptNotFoundException.cs" />
-    <Compile Include="Text\SqlBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
+    <DefineConstants>NETSTANDARD</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <DefineConstants>NETSTANDARD1_3</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <DefineConstants>NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net451' ">
+    <DefineConstants>NET451</DefineConstants>
+  </PropertyGroup>
 </Project>

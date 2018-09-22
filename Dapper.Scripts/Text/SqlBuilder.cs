@@ -72,7 +72,7 @@ namespace Dapper.Scripts.Text
         /// <param name="value">The value of the SQL parameter</param>
         public void AppendParam(string name, object value)
         {
-            if (paramList.ContainsKey(name)) throw new ApplicationException($"The named parameter '{name}' already exists!");
+            if (paramList.ContainsKey(name)) throw new Exception($"The named parameter '{name}' already exists!");
 
             paramList[name] = value;
         }

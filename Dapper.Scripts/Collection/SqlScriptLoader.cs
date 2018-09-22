@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Collection
 {
@@ -31,22 +32,12 @@ namespace Dapper.Scripts.Collection
         /// </summary>
         /// <param name="assembly">The assembly containing the embedded resources.</param>
         /// <param name="path">The full root-path of the resource items.</param>
-        /// <param name="encoding">The encoding used to read the files.</param>
-        public void FromAssembly(Assembly assembly, string path, Encoding encoding)
+        public void FromAssembly(Assembly assembly, string path)
         {
             foreach (var resource in FindResourceKeys(assembly, path)) {
-                var key = resource
-                    .Substring(path.Length)
-                    .TrimStart('.');
+                var key = resource.Substring(path.Length).TrimStart('.');
 
-                using (var stream = assembly.GetManifestResourceStream(resource)) {
-                    if (stream == null)
-                        throw new ApplicationException($"Resource '{resource}' was not found!");
-                    
-                    using (var reader = new StreamReader(stream, encoding)) {
-                        scriptCollection[key] = reader.ReadToEnd();
-                    }
-                }
+                scriptCollection[key] = ReadResourceAsString(assembly, resource);
             }
         }
 
@@ -55,21 +46,31 @@ namespace Dapper.Scripts.Collection
         /// </summary>
         /// <param name="assembly">The assembly containing the embedded resources.</param>
         /// <param name="path">The full root-path of the resource items.</param>
-        public void FromAssembly(Assembly assembly, string path)
+        public async Task FromAssemblyAsync(Assembly assembly, string path)
+        {
+            var taskList = FindResourceKeys(assembly, path).Select(resource => {
+                var key = resource.Substring(path.Length).TrimStart('.');
+
+                return Task.Run(async () => {
+                    scriptCollection[key] = await ReadResourceAsStringAsync(assembly, resource);
+                });
+            }).ToArray();
+
+            await Task.WhenAll(taskList);
+        }
+
+        /// <summary>
+        /// Loads all Embedded Resources found within the given assembly path.
+        /// </summary>
+        /// <param name="assembly">The assembly containing the embedded resources.</param>
+        /// <param name="path">The full root-path of the resource items.</param>
+        /// <param name="encoding">The encoding used to read the files.</param>
+        public void FromAssembly(Assembly assembly, string path, Encoding encoding)
         {
             foreach (var resource in FindResourceKeys(assembly, path)) {
-                var key = resource
-                    .Substring(path.Length)
-                    .TrimStart('.');
+                var key = resource.Substring(path.Length).TrimStart('.');
 
-                using (var stream = assembly.GetManifestResourceStream(resource)) {
-                    if (stream == null)
-                        throw new ApplicationException($"Resource '{resource}' was not found!");
-                    
-                    using (var reader = new StreamReader(stream)) {
-                        scriptCollection[key] = reader.ReadToEnd();
-                    }
-                }
+                scriptCollection[key] = ReadResourceAsString(assembly, resource, encoding);
             }
         }
 
@@ -120,6 +121,39 @@ namespace Dapper.Scripts.Collection
             return assembly
                 .GetManifestResourceNames()
                 .Where(x => x.StartsWith(path));
+        }
+
+        private string ReadResourceAsString(Assembly assembly, string resource)
+        {
+            using (var stream = assembly.GetManifestResourceStream(resource)) {
+                if (stream == null) throw new ResourceNotFoundException(resource, assembly);
+                    
+                using (var reader = new StreamReader(stream)) {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        private string ReadResourceAsString(Assembly assembly, string resource, Encoding encoding)
+        {
+            using (var stream = assembly.GetManifestResourceStream(resource)) {
+                if (stream == null) throw new ResourceNotFoundException(resource, assembly);
+                    
+                using (var reader = new StreamReader(stream, encoding)) {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        private Task<string> ReadResourceAsStringAsync(Assembly assembly, string resource)
+        {
+            using (var stream = assembly.GetManifestResourceStream(resource)) {
+                if (stream == null) throw new ResourceNotFoundException(resource, assembly);
+                    
+                using (var reader = new StreamReader(stream)) {
+                    return reader.ReadToEndAsync();
+                }
+            }
         }
     }
 }

@@ -1,15 +1,15 @@
 ﻿using Dapper.Scripts.Collection;
 using Dapper.Scripts.Connection;
-using NUnit.Framework;
 using System.Data;
 using System.Threading;
+using Xunit;
 
 namespace Dapper.Scripts.Tests.UnitTests
 {
-    [TestFixture, Category("unit")]
     public class ScriptCommandDefinitionTests
     {
-        [Test]
+        [Fact]
+        [Trait("Category", "Unit")]
         public void ToSqlDefinitionTest()
         {
             var scripts = new SqlScriptCollection();
@@ -33,13 +33,13 @@ namespace Dapper.Scripts.Tests.UnitTests
                 using (var connection = connectionFactory.Connect()) {
                     var commandDefinition = scriptCommandDefinition.ToSqlDefinition(connection);
 
-                    Assert.That(commandDefinition.CommandText, Is.EqualTo("test sql"), "CommandText does not match!");
-                    Assert.That(commandDefinition.Parameters, Is.EqualTo(scriptCommandDefinition.Parameters), "Parameters does not match!");
-                    Assert.That(commandDefinition.Transaction, Is.EqualTo(scriptCommandDefinition.Transaction), "Transaction does not match!");
-                    Assert.That(commandDefinition.CommandTimeout, Is.EqualTo(scriptCommandDefinition.CommandTimeout), "CommandTimeout does not match!");
-                    Assert.That(commandDefinition.CommandType, Is.EqualTo(scriptCommandDefinition.CommandType), "CommandType does not match!");
-                    Assert.That(commandDefinition.Flags, Is.EqualTo(scriptCommandDefinition.Flags), "Flags does not match!");
-                    Assert.That(commandDefinition.CancellationToken, Is.EqualTo(scriptCommandDefinition.CancellationToken), "CancellationToken does not match!");
+                    Assert.Equal("test sql", commandDefinition.CommandText);
+                    Assert.Equal(scriptCommandDefinition.Parameters, commandDefinition.Parameters);
+                    Assert.Equal(scriptCommandDefinition.Transaction, commandDefinition.Transaction);
+                    Assert.Equal(scriptCommandDefinition.CommandTimeout, commandDefinition.CommandTimeout);
+                    Assert.Equal(scriptCommandDefinition.CommandType, commandDefinition.CommandType);
+                    Assert.Equal(scriptCommandDefinition.Flags, commandDefinition.Flags);
+                    Assert.Equal(scriptCommandDefinition.CancellationToken, commandDefinition.CancellationToken);
                 }
             }
         }

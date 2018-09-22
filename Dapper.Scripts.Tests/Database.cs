@@ -11,7 +11,11 @@ namespace Dapper.Scripts.Tests
 
         static Database()
         {
+        #if NETCOREAPP1_0
+            var assembly = typeof(Database).GetTypeInfo().Assembly;
+        #else
             var assembly = Assembly.GetExecutingAssembly();
+        #endif
 
             var scripts = new SqlScriptCollection();
             scripts.Add.FromAssembly(assembly, "Dapper.Scripts.Tests.Scripts");

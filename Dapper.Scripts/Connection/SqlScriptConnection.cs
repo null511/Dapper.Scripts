@@ -11,7 +11,6 @@ namespace Dapper.Scripts.Connection
     /// <summary>
     /// Binds a database connection to a collection of SQL scripts.
     /// </summary>
-    [System.ComponentModel.DesignerCategory("")]
     public class SqlScriptConnection : DbConnection, ISqlScriptConnection
     {
         private readonly ISqlScriptCollection scriptCollection;
