@@ -1,5 +1,4 @@
-﻿using Photon.Framework.Agent;
-using Photon.Framework.Tasks;
+﻿using Photon.Framework.Server;
 using Photon.NuGet.CorePlugin;
 using System;
 using System.IO;
@@ -9,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Dapper.Scripts.Publishing.Scripts
 {
-    public class Publish : IBuildTask
+    public class Publish : IDeployScript
     {
-        public IAgentBuildContext Context {get; set;}
+        public IServerDeployContext Context {get; set;}
 
         
         public async Task RunAsync(CancellationToken token)
