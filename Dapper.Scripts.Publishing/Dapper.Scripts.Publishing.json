@@ -1,0 +1,22 @@
+{
+	"id": "dapper.scripts",
+	"name": "Dapper Scripts",
+	"description": "Publishes a pre-compiled and pre-tested NuGet Package for Dapper.Scrips.",
+	"project": "dapper.scripts",
+	"assembly": "Dapper.Scripts.Publishing.dll",
+	"script": "Publish",
+	"files": [
+		{
+			"path": "bin\\Debug\\**",
+			"destination": "",
+			"exclude": [
+				"**\\*.xml",
+				"**\\*.pdb"
+			]
+		},
+		{
+			"path": "bin\\Package\\**",
+			"destination": "PublishPackage"
+		}
+	]
+}
