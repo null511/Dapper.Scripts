@@ -21,7 +21,7 @@ namespace Dapper.Scripts.Publishing.Scripts
         public async Task RunAsync(CancellationToken token)
         {
             dotnet = new DotNetCommand(Context) {
-                WorkingDirectory = Context.WorkDirectory,
+                WorkingDirectory = Context.ContentDirectory,
             };
 
             await BuildSolutionAsync(token);
