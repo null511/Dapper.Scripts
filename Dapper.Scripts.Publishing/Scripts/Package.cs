@@ -27,7 +27,7 @@ namespace Dapper.Scripts.Publishing.Scripts
             await BuildSolutionAsync(token);
             await UnitTestAsync(token);
 
-            var assemblyFile = Path.Combine(Context.ContentDirectory, "Jenkins.Net", "bin", "Release", "net45", "Jenkins.Net.dll");
+            var assemblyFile = Path.Combine(Context.ContentDirectory, "Jenkins.Net", "bin", "Release", "net451", "Jenkins.Net.dll");
             var assemblyVersion = AssemblyTools.GetVersion(assemblyFile);
             var projectPackageVersion = $"{Context.BuildNumber}.{assemblyVersion}";
 
