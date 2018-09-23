@@ -7,9 +7,19 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Scripts\SelectAllFruitNames.sql" />
+    <None Remove="Scripts\SqlTest.sql" />
+    <None Remove="Scripts\SqlTransformTest.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\SelectAllFruitNames.sql" />
+    <EmbeddedResource Include="Scripts\SqlTransformTest.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\SqlTest.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\SelectAllFruitNames.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' != 'net451' ">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
