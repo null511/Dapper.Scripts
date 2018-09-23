@@ -23,7 +23,7 @@ namespace Dapper.Scripts.Publishing.Scripts
             var packageDir = Path.Combine(Context.BinDirectory, "PublishPackage");
 
             var packageFilename = Directory
-                .GetFiles(packageDir, "jenkinsnet.*.nupkg")
+                .GetFiles(packageDir, "dapper.scripts.*.nupkg")
                 .FirstOrDefault();
 
             if (string.IsNullOrEmpty(packageFilename))
