@@ -9,7 +9,7 @@ namespace Dapper.Scripts.Tests.UnitTests
     public class ScriptCommandDefinitionTests
     {
         [Fact]
-        [Trait("Category", "Unit")]
+        [Trait("Category", "unit")]
         public void ToSqlDefinitionTest()
         {
             var scripts = new SqlScriptCollection();

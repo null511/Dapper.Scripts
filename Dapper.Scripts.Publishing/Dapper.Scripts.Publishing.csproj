@@ -81,8 +81,11 @@
     <Reference Include="NuGet.Versioning, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\NuGet.Versioning.4.2.0\lib\net45\NuGet.Versioning.dll</HintPath>
     </Reference>
-    <Reference Include="Photon.Framework, Version=0.0.74.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Photon.Framework.0.0.74\lib\net46\Photon.Framework.dll</HintPath>
+    <Reference Include="Photon.DotNet, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Photon.DotNet.0.0.1\lib\net46\Photon.DotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Photon.Framework, Version=0.0.75.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Photon.Framework.0.0.75\lib\net46\Photon.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Photon.NuGet.Core, Version=0.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Photon.NuGet.Core.0.0.3\lib\net46\Photon.NuGet.Core.dll</HintPath>
