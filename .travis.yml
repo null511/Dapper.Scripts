@@ -1,4 +1,6 @@
 language: csharp
+#mono: 5.2.0
+mono: none
 dotnet: 3.1
 
 install:
@@ -17,11 +19,11 @@ deploy:
   file: "Dapper.Scripts/bin/Dapper.Scripts.*.nupkg"
   skip_cleanup: true
   on:
-    tags: true
+    branch: master
 
-# deploy:
-#   skip_cleanup: true
-#   provider: script
-#   script: dotnet nuget push Jenkins.Net/bin/jenkinsnet.*.nupkg -k $NUGET_APIKEY -s $NUGET_SOURCE
-#   on:
-#     branch: master
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: dotnet nuget push "Dapper.Scripts/bin/Dapper.Scripts.*.nupkg" --source "github"
+  on:
+    branch: master
