@@ -7,7 +7,7 @@ namespace Dapper.Scripts
     /// <summary>
     /// Collection of extension methods for using Dapper with Scripts.
     /// </summary>
-    public static class DbConnectionExtensions
+    public static class ScriptConnectionExtensions
     {
         /// <summary>
         /// Execute a parameterized SQL script.

@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Scripts.Publishing", "Dapper.Scripts.Publishing\Dapper.Scripts.Publishing.csproj", "{9BB6192D-0459-440F-8938-70701E40F3ED}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Scripts", "Dapper.Scripts\Dapper.Scripts.csproj", "{4AFBD6F2-34FC-4CCE-9E45-14DC3801D95A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Scripts.Tests", "Dapper.Scripts.Tests\Dapper.Scripts.Tests.csproj", "{71DAECE1-AA55-45E5-AFE9-BFBDB3EC1A95}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9BB6192D-0459-440F-8938-70701E40F3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BB6192D-0459-440F-8938-70701E40F3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BB6192D-0459-440F-8938-70701E40F3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BB6192D-0459-440F-8938-70701E40F3ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4AFBD6F2-34FC-4CCE-9E45-14DC3801D95A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4AFBD6F2-34FC-4CCE-9E45-14DC3801D95A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AFBD6F2-34FC-4CCE-9E45-14DC3801D95A}.Release|Any CPU.ActiveCfg = Release|Any CPU

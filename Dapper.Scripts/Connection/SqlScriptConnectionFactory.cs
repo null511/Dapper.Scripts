@@ -1,7 +1,5 @@
 ﻿using Dapper.Scripts.Collection;
 using System;
-using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -13,11 +11,6 @@ namespace Dapper.Scripts.Connection
     public class SqlScriptConnectionFactory
     {
         private readonly ISqlScriptCollection scriptCollection;
-
-        /// <summary>
-        /// Occurs when a database connection is created, before being returned to the caller.
-        /// </summary>
-        public event EventHandler<SqlConnectionCreatedEventArgs> ConnectionCreated;
 
         /// <summary>
         /// Connection String used for creating database connections.
@@ -40,8 +33,6 @@ namespace Dapper.Scripts.Connection
         public SqlScriptConnection Connect()
         {
             var dbConnection = OnCreateConnection();
-            OnConnectionCreated(dbConnection);
-
             return new SqlScriptConnection(scriptCollection, dbConnection);
         }
 
@@ -51,8 +42,6 @@ namespace Dapper.Scripts.Connection
         public SqlScriptConnection Open()
         {
             var dbConnection = OnCreateConnection();
-            OnConnectionCreated(dbConnection);
-
             var connection = new SqlScriptConnection(scriptCollection, dbConnection);
 
             try {
@@ -71,8 +60,6 @@ namespace Dapper.Scripts.Connection
         public async Task<SqlScriptConnection> OpenAsync()
         {
             var dbConnection = OnCreateConnection();
-            OnConnectionCreated(dbConnection);
-
             var connection = new SqlScriptConnection(scriptCollection, dbConnection);
 
             try {
@@ -144,19 +131,9 @@ namespace Dapper.Scripts.Connection
         /// <summary>
         /// Creates a connection to the database.
         /// </summary>
-        protected virtual DbConnection OnCreateConnection()
+        protected virtual SqlConnection OnCreateConnection()
         {
             return new SqlConnection(ConnectionString);
-        }
-
-        private void OnConnectionCreated(IDbConnection connection)
-        {
-            try {
-                ConnectionCreated?.Invoke(this, new SqlConnectionCreatedEventArgs {
-                    Connection = connection,
-                });
-            }
-            catch {}
         }
     }
 }

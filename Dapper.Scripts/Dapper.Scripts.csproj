@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFrameworks>net451;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net451;netstandard2.0;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup>
-    <RootNamespace>Dapper.Scripts</RootNamespace>
-    <PackageId>dapper.scripts</PackageId>
+    <Version>2.3.2</Version>
+    <FileVersion>2.3.2</FileVersion>
+    <AssemblyVersion>2.3.2</AssemblyVersion>
+    <PackageId>Dapper.Scripts</PackageId>
     <Product>Dapper Scripts</Product>
     <Company>Joshua Miller</Company>
     <Authors>null511</Authors>
@@ -13,9 +15,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>2.3.1</Version>
-    <FileVersion>2.3.1</FileVersion>
-    <AssemblyVersion>2.3.1</AssemblyVersion>
+    <RootNamespace>Dapper.Scripts</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.4" />
@@ -26,14 +26,13 @@
     <Reference Include="System.Data" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
-    <DefineConstants>NETSTANDARD</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <DefineConstants>NETSTANDARD1_3</DefineConstants>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <DefineConstants>NETCORE_3_1</DefineConstants>
+    <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <DefineConstants>NETSTANDARD2_0</DefineConstants>
+    <DefineConstants>NETCORE_2_0</DefineConstants>
+    <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net451' ">
     <DefineConstants>NET451</DefineConstants>

@@ -1,4 +1,5 @@
-﻿using Dapper.Scripts.Connection;
+﻿using Dapper.Scripts.Collection;
+using Dapper.Scripts.Connection;
 using System.Data;
 using System.Threading;
 
@@ -53,6 +54,17 @@ namespace Dapper.Scripts
         public CommandDefinition ToSqlDefinition(ISqlScriptConnection connection)
         {
             var sql = connection.GetScriptSql(Key, Parameters);
+            return new CommandDefinition(sql, Parameters, Transaction, CommandTimeout, CommandType, Flags, CancellationToken);
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="CommandDefinition"/>
+        /// using the current settings.
+        /// </summary>
+        /// <param name="scripts">The collection of scripts used to populate the commands SQL text.</param>
+        public CommandDefinition ToSqlDefinition(ISqlScriptCollection scripts)
+        {
+            var sql = scripts.GetScriptSql(Key, Parameters);
             return new CommandDefinition(sql, Parameters, Transaction, CommandTimeout, CommandType, Flags, CancellationToken);
         }
     }

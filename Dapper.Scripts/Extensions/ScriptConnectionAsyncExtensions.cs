@@ -9,7 +9,7 @@ namespace Dapper.Scripts
     /// <summary>
     /// Collection of extension methods for using Dapper with Scripts asynchronously.
     /// </summary>
-    public static class DbConnectionAsyncExtensions
+    public static class ScriptConnectionAsyncExtensions
     {
         /// <summary>
         /// Execute a SQL script asynchronously.
