@@ -34,11 +34,21 @@ namespace Dapper.Scripts.Collection
         /// <param name="path">The full root-path of the resource items.</param>
         public void FromAssembly(Assembly assembly, string path)
         {
-            foreach (var resource in FindResourceKeys(assembly, path)) {
+            foreach (var resource in FindResourceKeys(assembly, path))
+            {
                 var key = resource.Substring(path.Length).TrimStart('.');
 
                 scriptCollection[key] = ReadResourceAsString(assembly, resource);
             }
+        }
+
+        /// <summary>
+        /// Loads all Embedded Resources found within the provided path of the calling assembly.
+        /// </summary>
+        /// <param name="path">The full root-path of the resource items.</param>
+        public void FromAssembly(string path)
+        {
+            FromAssembly(Assembly.GetCallingAssembly(), path);
         }
 
         /// <summary>
@@ -57,6 +67,15 @@ namespace Dapper.Scripts.Collection
             }).ToArray();
 
             await Task.WhenAll(taskList);
+        }
+
+        /// <summary>
+        /// Loads all Embedded Resources found within the provided path of the calling assembly.
+        /// </summary>
+        /// <param name="path">The full root-path of the resource items.</param>
+        public Task FromAssemblyAsync(string path)
+        {
+            return FromAssemblyAsync(Assembly.GetCallingAssembly(), path);
         }
 
         /// <summary>
