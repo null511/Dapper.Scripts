@@ -12,7 +12,6 @@ script:
 before_deploy:
   provider: releases
   api_key: $GITHUB_APIKEY
-  github_token: $GITHUB_TOKEN
   file: "Dapper.Scripts/bin/Dapper.Scripts.*.nupkg"
   skip_cleanup: true
   on:
