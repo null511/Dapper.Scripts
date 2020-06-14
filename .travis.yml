@@ -1,6 +1,6 @@
 language: csharp
-mono: 5.2.0
-#mono: none
+#mono: 5.2.0
+mono: none
 dotnet: 3.1
 
 install:
@@ -10,9 +10,10 @@ install:
 script:
   - dotnet pack Dapper.Scripts/Dapper.Scripts.csproj -c Release --no-restore -o bin
 
-deploy:
+before_deploy:
   provider: releases
   api_key: $GITHUB_APIKEY
+  github_token: $GITHUB_TOKEN
   file: "Dapper.Scripts/bin/Dapper.Scripts.*.nupkg"
   skip_cleanup: true
   on:
@@ -21,6 +22,6 @@ deploy:
 deploy:
   skip_cleanup: true
   provider: script
-  script: dotnet nuget push "Dapper.Scripts/bin/Dapper.Scripts.*.nupkg" --source "github"
+  script: dotnet nuget push "Dapper.Scripts/bin/Dapper.Scripts.*.nupkg" -s "https://nuget.pkg.github.com/null511/index.json" -k "$GITHUB_APIKEY"
   on:
     branch: master
