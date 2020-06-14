@@ -9,17 +9,9 @@ install:
 script:
   - dotnet pack Dapper.Scripts/Dapper.Scripts.csproj -c Release --no-restore -o bin
 
-# before_deploy:
-#   provider: releases
-#   api_key: $GITHUB_APIKEY
-#   file: "Dapper.Scripts/bin/Dapper.Scripts.*.nupkg"
-#   skip_cleanup: true
-#   on:
-#     branch: master
-
 deploy:
   skip_cleanup: true
   provider: script
-  script: dotnet nuget push "Dapper.Scripts/bin/Dapper.Scripts.*.nupkg" -s "https://nuget.pkg.github.com/null511/index.json" -k "$GITHUB_TOKEN"
+  script: dotnet nuget push ./Dapper.Scripts/bin/Dapper.Scripts.*.nupkg -s https://nuget.pkg.github.com/null511/index.json -k $GITHUB_TOKEN --skip-duplicate
   on:
     branch: master
