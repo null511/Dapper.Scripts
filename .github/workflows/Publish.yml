@@ -1,0 +1,40 @@
+name: Publish
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version.'
+        required: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: dotnet pack -c Release -o .
+      - name: Push Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: nuget-package
+          path: Dapper.Scripts.*.nupkg
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          release_name: Release ${{ github.event.inputs.version }}
+      - name: Upload release package
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: Dapper.Scripts.*.nupkg
+          asset_name: Dapper.Scripts.*.nupkg
+          asset_content_type: application/exe
+      - name: Release
+        run: dotnet nuget push Dapper.Scripts.*.nupkg -s https://api.nuget.org/v3/index.json -k %NUGET_APIKEY%

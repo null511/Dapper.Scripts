@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net451;netcoreapp2.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net462;netcoreapp2.0;net6.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup>
     <IsPackable>false</IsPackable>
@@ -11,31 +11,27 @@
     <None Remove="Scripts\SqlTransformTest.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\SqlTransformTest.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\SqlTest.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\SelectAllFruitNames.sql">
+    <EmbeddedResource Include="Scripts\*.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' != 'net451' ">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.6.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
-    <PackageReference Include="xunit" Version="2.1.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.1.0" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dapper.Scripts\Dapper.Scripts.csproj" />

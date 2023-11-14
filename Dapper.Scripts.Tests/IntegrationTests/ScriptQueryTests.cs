@@ -27,7 +27,7 @@ namespace Dapper.Scripts.Tests.IntegrationTests
             using (var connection = await Database.Testing.OpenAsync()) {
                 var fruitList = (await connection.QueryScriptAsync("SelectAllFruitNames.sql")).ToArray();
                 var allFruit = fruitList.Select(x => (string)x.Name).ToArray();
-                Console.Out.WriteLine(string.Join(", ", allFruit));
+                await Console.Out.WriteLineAsync(string.Join(", ", allFruit));
 
                 Assert.NotEmpty(allFruit);
             }
