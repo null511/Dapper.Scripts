@@ -81,9 +81,8 @@ namespace Dapper.Scripts.Connection
         {
             if (dbAction == null) throw new ArgumentNullException(nameof(dbAction));
 
-            using (var session = Connect()) {
-                dbAction.Invoke(session);
-            }
+            using var session = Connect();
+            dbAction.Invoke(session);
         }
 
         /// <summary>
@@ -96,9 +95,8 @@ namespace Dapper.Scripts.Connection
         {
             if (dbAction == null) throw new ArgumentNullException(nameof(dbAction));
 
-            using (var session = Connect()) {
-                return dbAction.Invoke(session);
-            }
+            using var session = Connect();
+            return dbAction.Invoke(session);
         }
 
         /// <summary>
@@ -109,9 +107,8 @@ namespace Dapper.Scripts.Connection
         {
             if (dbAction == null) throw new ArgumentNullException(nameof(dbAction));
 
-            using (var session = Connect()) {
-                await dbAction.Invoke(session);
-            }
+            await using var session = Connect();
+            await dbAction.Invoke(session);
         }
 
         /// <summary>
@@ -123,9 +120,8 @@ namespace Dapper.Scripts.Connection
         {
             if (dbAction == null) throw new ArgumentNullException(nameof(dbAction));
 
-            using (var session = Connect()) {
-                return await dbAction.Invoke(session);
-            }
+            await using var session = Connect();
+            return await dbAction.Invoke(session);
         }
 
         /// <summary>

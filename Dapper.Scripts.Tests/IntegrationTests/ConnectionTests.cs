@@ -9,9 +9,8 @@ namespace Dapper.Scripts.Tests.IntegrationTests
         [Trait("Category", "Integration")]
         public async Task CanConnect()
         {
-            using (var connection = Database.Testing.Connect()) {
-                await connection.OpenAsync();
-            }
+            await using var connection = Database.Testing.Connect();
+            await connection.OpenAsync();
         }
     }
 }

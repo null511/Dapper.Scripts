@@ -17,31 +17,29 @@ namespace Dapper.Scripts.Tests.UnitTests
 
             var connectionFactory = new SqlScriptConnectionFactory(scripts);
 
-            using (var tokenSource = new CancellationTokenSource()) {
-                var scriptCommandDefinition = new ScriptCommandDefinition {
-                    Key = "key",
-                    Parameters = new {
-                        param = "test",
-                    },
-                    Transaction = null,
-                    CommandTimeout = 123,
-                    CommandType = CommandType.StoredProcedure,
-                    Flags = CommandFlags.Pipelined,
-                    CancellationToken = tokenSource.Token,
-                };
+            using var tokenSource = new CancellationTokenSource();
+            var scriptCommandDefinition = new ScriptCommandDefinition {
+                Key = "key",
+                Parameters = new {
+                    param = "test",
+                },
+                Transaction = null,
+                CommandTimeout = 123,
+                CommandType = CommandType.StoredProcedure,
+                Flags = CommandFlags.Pipelined,
+                CancellationToken = tokenSource.Token,
+            };
 
-                using (var connection = connectionFactory.Connect()) {
-                    var commandDefinition = scriptCommandDefinition.ToSqlDefinition(connection);
+            using var connection = connectionFactory.Connect();
+            var commandDefinition = scriptCommandDefinition.ToSqlDefinition(connection);
 
-                    Assert.Equal("test sql", commandDefinition.CommandText);
-                    Assert.Equal(scriptCommandDefinition.Parameters, commandDefinition.Parameters);
-                    Assert.Equal(scriptCommandDefinition.Transaction, commandDefinition.Transaction);
-                    Assert.Equal(scriptCommandDefinition.CommandTimeout, commandDefinition.CommandTimeout);
-                    Assert.Equal(scriptCommandDefinition.CommandType, commandDefinition.CommandType);
-                    Assert.Equal(scriptCommandDefinition.Flags, commandDefinition.Flags);
-                    Assert.Equal(scriptCommandDefinition.CancellationToken, commandDefinition.CancellationToken);
-                }
-            }
+            Assert.Equal("test sql", commandDefinition.CommandText);
+            Assert.Equal(scriptCommandDefinition.Parameters, commandDefinition.Parameters);
+            Assert.Equal(scriptCommandDefinition.Transaction, commandDefinition.Transaction);
+            Assert.Equal(scriptCommandDefinition.CommandTimeout, commandDefinition.CommandTimeout);
+            Assert.Equal(scriptCommandDefinition.CommandType, commandDefinition.CommandType);
+            Assert.Equal(scriptCommandDefinition.Flags, commandDefinition.Flags);
+            Assert.Equal(scriptCommandDefinition.CancellationToken, commandDefinition.CancellationToken);
         }
     }
 }

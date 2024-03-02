@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Dapper.Scripts.Collection
 {
@@ -58,7 +57,7 @@ namespace Dapper.Scripts.Collection
         /// <exception cref="ScriptNotFoundException" />
         public string GetScriptSql(string key, object param = null)
         {
-            if (!ScriptCollection.TryGetValue(key, out string sql))
+            if (!ScriptCollection.TryGetValue(key, out var sql))
                 throw new ScriptNotFoundException(key);
 
             return OnTransform(sql, param);

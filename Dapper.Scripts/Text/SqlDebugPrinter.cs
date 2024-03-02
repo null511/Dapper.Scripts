@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Dapper.Scripts.Text
@@ -62,8 +61,8 @@ namespace Dapper.Scripts.Text
 
         private static string ReplaceTextSegment(string text, int start, int length, string replacementText)
         {
-            var text_pre = text.Substring(0, start);
-            var text_post = text.Substring(start + length);
+            var text_pre = text[..start];
+            var text_post = text[(start + length)..];
             return string.Concat(text_pre, replacementText, text_post);
         }
 

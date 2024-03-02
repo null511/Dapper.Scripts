@@ -36,7 +36,7 @@ namespace Dapper.Scripts.Collection
         {
             foreach (var resource in FindResourceKeys(assembly, path))
             {
-                var key = resource.Substring(path.Length).TrimStart('.');
+                var key = resource[path.Length..].TrimStart('.');
 
                 scriptCollection[key] = ReadResourceAsString(assembly, resource);
             }
@@ -59,7 +59,7 @@ namespace Dapper.Scripts.Collection
         public async Task FromAssemblyAsync(Assembly assembly, string path)
         {
             var taskList = FindResourceKeys(assembly, path).Select(resource => {
-                var key = resource.Substring(path.Length).TrimStart('.');
+                var key = resource[path.Length..].TrimStart('.');
 
                 return Task.Run(async () => {
                     scriptCollection[key] = await ReadResourceAsStringAsync(assembly, resource);
@@ -87,7 +87,7 @@ namespace Dapper.Scripts.Collection
         public void FromAssembly(Assembly assembly, string path, Encoding encoding)
         {
             foreach (var resource in FindResourceKeys(assembly, path)) {
-                var key = resource.Substring(path.Length).TrimStart('.');
+                var key = resource[path.Length..].TrimStart('.');
 
                 scriptCollection[key] = ReadResourceAsString(assembly, resource, encoding);
             }
@@ -129,7 +129,7 @@ namespace Dapper.Scripts.Collection
             scriptCollection[key] = sql;
         }
 
-        private IEnumerable<string> FindResourceKeys(Assembly assembly, string path)
+        private static IEnumerable<string> FindResourceKeys(Assembly assembly, string path)
         {
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
@@ -142,37 +142,31 @@ namespace Dapper.Scripts.Collection
                 .Where(x => x.StartsWith(path));
         }
 
-        private string ReadResourceAsString(Assembly assembly, string resource)
+        private static string ReadResourceAsString(Assembly assembly, string resource)
         {
-            using (var stream = assembly.GetManifestResourceStream(resource)) {
-                if (stream == null) throw new ResourceNotFoundException(resource, assembly);
-                    
-                using (var reader = new StreamReader(stream)) {
-                    return reader.ReadToEnd();
-                }
-            }
+            using var stream = assembly.GetManifestResourceStream(resource)
+                ?? throw new ResourceNotFoundException(resource, assembly);
+
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
 
-        private string ReadResourceAsString(Assembly assembly, string resource, Encoding encoding)
+        private static string ReadResourceAsString(Assembly assembly, string resource, Encoding encoding)
         {
-            using (var stream = assembly.GetManifestResourceStream(resource)) {
-                if (stream == null) throw new ResourceNotFoundException(resource, assembly);
-                    
-                using (var reader = new StreamReader(stream, encoding)) {
-                    return reader.ReadToEnd();
-                }
-            }
+            using var stream = assembly.GetManifestResourceStream(resource)
+                ?? throw new ResourceNotFoundException(resource, assembly);
+
+            using var reader = new StreamReader(stream, encoding);
+            return reader.ReadToEnd();
         }
 
-        private Task<string> ReadResourceAsStringAsync(Assembly assembly, string resource)
+        private static async Task<string> ReadResourceAsStringAsync(Assembly assembly, string resource)
         {
-            using (var stream = assembly.GetManifestResourceStream(resource)) {
-                if (stream == null) throw new ResourceNotFoundException(resource, assembly);
-                    
-                using (var reader = new StreamReader(stream)) {
-                    return reader.ReadToEndAsync();
-                }
-            }
+            await using var stream = assembly.GetManifestResourceStream(resource)
+                ?? throw new ResourceNotFoundException(resource, assembly);
+
+            using var reader = new StreamReader(stream);
+            return await reader.ReadToEndAsync();
         }
     }
 }
