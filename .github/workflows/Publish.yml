@@ -28,4 +28,4 @@ jobs:
           files: Dapper.Scripts.*.nupkg
           draft: true
       - name: Release
-        run: dotnet nuget push Dapper.Scripts.*.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_APIKEY }}
+        run: dotnet nuget push Dapper.Scripts.*.nupkg -s https://api.nuget.org/v3/index.json -k "${{ secrets.NUGET_APIKEY }}"
