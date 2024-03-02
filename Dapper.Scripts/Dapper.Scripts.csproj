@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFrameworks>net462;netcoreapp2.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net462;netcoreapp3.1;net6.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup>
     <Version>2.3.2</Version>
@@ -18,8 +18,8 @@
     <RootNamespace>Dapper.Scripts</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.21" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="Dapper" Version="2.1.28" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
     <Reference Include="System" />
