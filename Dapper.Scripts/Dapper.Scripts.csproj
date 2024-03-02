@@ -3,9 +3,9 @@
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>2.4.0</Version>
-    <FileVersion>2.4.0</FileVersion>
-    <AssemblyVersion>2.4.0</AssemblyVersion>
+    <Version>2.4.1</Version>
+    <FileVersion>2.4.1</FileVersion>
+    <AssemblyVersion>2.4.1</AssemblyVersion>
     <PackageId>Dapper.Scripts</PackageId>
     <Product>Dapper Scripts</Product>
     <Company>Joshua Miller</Company>
@@ -13,6 +13,8 @@
     <Description>Extends Dapper by using additional extension methods to support external SQL script collections.</Description>
     <Copyright>Copyright © 2018</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>Dapper.Scripts</RootNamespace>
@@ -21,12 +23,8 @@
     <PackageReference Include="Dapper" Version="2.1.28" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-    <DefineConstants>NETCORE_5_0</DefineConstants>
-    <DefineConstants>NETCORE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-    <DefineConstants>NETCORE_2_0</DefineConstants>
-    <DefineConstants>NETCORE</DefineConstants>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\readme.md" Pack="true" PackagePath="\"/>
+    <None Include="..\LICENSE" Pack="true" PackagePath=""/>
+  </ItemGroup>
 </Project>

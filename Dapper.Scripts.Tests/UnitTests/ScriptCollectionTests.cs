@@ -15,11 +15,7 @@ namespace Dapper.Scripts.Tests.UnitTests
 
         public ScriptCollectionTests()
         {
-#if NETCOREAPP
-            assembly = GetType().GetTypeInfo().Assembly;
-#else
             assembly = Assembly.GetExecutingAssembly();
-#endif
         }
 
         [Fact]
