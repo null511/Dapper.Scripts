@@ -11,30 +11,21 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            3.1.x
+            5.0.x
       - name: Build
         run: dotnet pack -c Release -o .
-      - name: Push Artifact
-        uses: actions/upload-artifact@v3
+      - name:
+        uses: softprops/action-gh-release@v1
         with:
-          name: nuget-package
-          path: Dapper.Scripts.*.nupkg
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
+          name: Release ${{ github.event.inputs.version }}
           tag_name: v${{ github.event.inputs.version }}
-          release_name: Release ${{ github.event.inputs.version }}
-      - name: Upload release package
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: Dapper.Scripts.*.nupkg
-          asset_name: Dapper.Scripts.*.nupkg
-          asset_content_type: application/exe
+          files: Dapper.Scripts.*.nupkg
+          draft: true
       - name: Release
-        run: dotnet nuget push Dapper.Scripts.*.nupkg -s https://api.nuget.org/v3/index.json -k %NUGET_APIKEY%
+        run: dotnet nuget push Dapper.Scripts.*.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_APIKEY }}
