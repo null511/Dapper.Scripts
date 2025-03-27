@@ -1,7 +1,12 @@
 ﻿using Dapper.Scripts.Collection;
 using System;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
+
+#if NETCOREAPP3_1
+using System.Data.SqlClient;
+#else
+using Microsoft.Data.SqlClient;
+#endif
 
 namespace Dapper.Scripts.Connection
 {

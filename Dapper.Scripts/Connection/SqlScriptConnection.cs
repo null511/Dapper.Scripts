@@ -2,9 +2,14 @@ using Dapper.Scripts.Collection;
 using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+
+#if NETCOREAPP3_1
+using System.Data.SqlClient;
+#else
+using Microsoft.Data.SqlClient;
+#endif
 
 namespace Dapper.Scripts.Connection
 {
@@ -17,7 +22,7 @@ namespace Dapper.Scripts.Connection
         private readonly DbConnection baseConnection;
 
         /// <summary>
-        /// Gets the current connection as a <seealso cref="System.Data.SqlClient.SqlConnection"/>.
+        /// Gets the current connection as a <seealso cref="Microsoft.Data.SqlClient.SqlConnection"/>.
         /// </summary>
         public SqlConnection SqlConnection => baseConnection as SqlConnection;
 
